@@ -1,0 +1,106 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "alloy",
+            "image": "grafana/alloy",
+            "cpu": 1024,
+            "memory": 1024,
+            "portMappings": [
+                {
+                    "name": "mainport",
+                    "containerPort": 12345,
+                    "hostPort": 12345,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                },
+                {
+                    "name": "grpc",
+                    "containerPort": 4317,
+                    "hostPort": 4317,
+                    "protocol": "tcp",
+                    "appProtocol": "grpc"
+                },
+                {
+                    "name": "http",
+                    "containerPort": 4318,
+                    "hostPort": 4318,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "entryPoint": [
+                "bash",
+                "-c"
+            ],
+            "command": [
+                "echo \"$ALLOY_CONFIG_CONTENT\" > /tmp/config_file && exec alloy run --server.http.listen-addr=0.0.0.0:12345 /tmp/config_file"
+            ],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "secrets": [
+                {
+                    "name": "ALLOY_CONFIG_CONTENT",
+                    "valueFrom": "collector-config"
+                }
+            ],
+            "ulimits": [],
+            "logConfiguration": {  
+                "secretOptions": []
+            },
+            "systemControls": []
+        }
+    ],
+    "family": "grafanaalloy",
+    "taskRoleArn": "",
+    "executionRoleArn": "",
+    "networkMode": "awsvpc",
+    "revision": 4,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.28"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "ecs.capability.secrets.ssm.environment-variables"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2"
+    ],
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "cpu": "1024",
+    "memory": "1024",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "enableFaultInjection": false,
+    "tags": []
+}

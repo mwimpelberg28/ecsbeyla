@@ -1,0 +1,113 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "goblog",
+            "image": "mariomac/goblog:dev",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "8443",
+                    "containerPort": 8443,
+                    "hostPort": 8443,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "secretOptions": []
+            },
+            "systemControls": []
+        },
+        {
+            "name": "beyla",
+            "image": "grafana/beyla:latest",
+            "cpu": 0,
+            "portMappings": [],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "BEYLA_EXECUTABLE_NAME",
+                    "value": "goblog"
+                },
+                {
+                    "name": "BEYLA_OPEN_PORT",
+                    "value": "8443"
+                },
+                {
+                    "name": "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT",
+                    "value": "http://alloy-receiver.alloy:4318"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "privileged": true,
+            "logConfiguration": {
+                "secretOptions": []
+            },
+            "systemControls": []
+        }
+    ],
+    "family": "goblogwithbeyla",
+    "taskRoleArn": "",
+    "executionRoleArn": "",
+    "networkMode": "awsvpc",
+    "revision": 16,
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.24"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.privileged-container"
+        },
+        {
+            "name": "ecs.capability.pid-ipc-namespace-sharing"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.28"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2"
+    ],
+    "requiresCompatibilities": [
+        "EC2"
+    ],
+    "cpu": "1024",
+    "memory": "3072",
+    "pidMode": "task",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "enableFaultInjection": false,
+    "tags": []
+}
